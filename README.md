@@ -59,7 +59,7 @@ go mod tidy
 
 El workflow:
 
-- corre `gofmt`, `go vet` y `go test -race` en `ubuntu-latest` y
+- corre `gofmt`, `go vet` y `go test -race` en `ubuntu-24.04` y
   `ubuntu-24.04-arm`;
 - compila binarios estáticos para `linux/amd64` y `linux/arm64`;
 - sube los artefactos por 7 días;
