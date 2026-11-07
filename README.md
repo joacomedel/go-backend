@@ -1,7 +1,12 @@
 # Backend Go de ejemplo
 
+[![CI](https://github.com/joacomedel/go-backend/actions/workflows/go.yml/badge.svg)](https://github.com/joacomedel/go-backend/actions)
+
 Servicio HTTP mínimo con `net/http`, sin dependencias externas. Sirve como
 base para backends Go y como proyecto de prueba del ecosistema `devctl`.
+
+- Repo: https://github.com/joacomedel/go-backend
+- CI: GitHub Actions en `ubuntu-24.04` y `ubuntu-24.04-arm`.
 
 ## Endpoints
 
@@ -40,20 +45,26 @@ cd /root/pipelineCompilacion
 `test-race` no corre en el Moto porque falta `gcc`; el router lo deriva a PC o
 CI. En GitHub Actions sí corre con `-race` en x86 y ARM64.
 
-## Pasar esto a un repo público propio
+## Repo y CI
 
-1. Copiá el contenido de `examples/go-backend` a la raíz de un repo nuevo.
-2. Cambiá el módulo:
+Este proyecto ya vive en
+[`joacomedel/go-backend`](https://github.com/joacomedel/go-backend). Cada push
+a `main` ejecuta el workflow `.github/workflows/go.yml`:
+
+- `gofmt`, `go vet` y `go test -race` en x86 y ARM64;
+- builds estáticos `linux/amd64` y `linux/arm64`;
+- artefactos descargables por `gh run download`.
+
+Para crear otro backend, copiá esta estructura a un repo nuevo y cambiá el
+módulo:
 
 ```bash
 go mod edit -module github.com/TU_USUARIO/TU_REPO
 go mod tidy
 ```
 
-3. El workflow ya está en `.github/workflows/go.yml`; GitHub lo detecta al
-   pushear a la rama por defecto.
-4. Seguí `docs/github.md` para autenticar `gh`, crear el repo y verificar el
-   primer run.
+Después seguí `docs/github.md` para autenticar `gh`, crear el repo público y
+verificar el primer run.
 
 ## CI
 
@@ -65,4 +76,5 @@ El workflow:
 - sube los artefactos por 7 días;
 - cancela corridas viejas del mismo ref.
 
-En repos públicos los runners estándar de GitHub son gratis.
+En repos públicos los runners estándar de GitHub son gratis. El último run
+verificado terminó en 46 s con los 4 jobs en verde.
